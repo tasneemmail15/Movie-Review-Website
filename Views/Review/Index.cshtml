@@ -1,0 +1,23 @@
+﻿@model ReviewSearchViewModel
+
+<partial name="_BreadCrumbs" model=@(new [] { ("/","Home"), ("/review","Reviews"), ("","Search") }) />
+
+<div class="card rounded shadow p-4">   
+  
+   <!-- review list header -->
+   <div class="d-flex align-items-center justify-content-between mb-4">
+      <h3>Review List</h3>
+      <a asp-condition=@User.HasOneOfRoles("admin,support")  asp-action="Create" class="btn btn-primary btn-sm">
+         <i class="bi bi-plus"></i> Create Review
+      </a>
+   </div>
+
+   <partial name="_Search" /> <!-- search partial -->
+
+   <partial name="_Reviews" /> <!-- review list partial -->
+
+</div>
+
+@section scripts {
+   <script src="https://unpkg.com/htmx.org@1.9.11" integrity="sha384-0gxUXCCR8yv9FM2b+U3FDbsKthCI66oH5IA9fHppQq9DDMHuMauqq1ZHBpJxQ0J0" crossorigin="anonymous"></script>
+}

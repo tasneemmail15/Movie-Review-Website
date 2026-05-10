@@ -1,0 +1,11 @@
+@model ReviewCreateViewModel
+<select asp-for="MovieId" class="form-control" asp-items="@Model.Movies">
+  @if (Model.Movies == null || Model.Movies.Count() == 0)
+  {
+    <option selected disabled value="">No Movie found</option>
+  }
+  else if (Model.Movies != null && Model.Movies.Count() > 1)
+  {
+    <option selected disabled value="">Select one of these movies....</option>
+  }
+</select>

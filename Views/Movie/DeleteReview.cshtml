@@ -1,0 +1,48 @@
+@model Review
+    
+<!-- TBC add a breadcrumb partial -->
+<partial name="_BreadCrumbs" model=@(new [] {
+    ("/","Home"),
+    ("/movie","Movies"),
+    ($"/movie/details/{Model.MovieId}", $"{Model.MovieId}"),
+    ("","Review")
+}) />
+
+<div class="card rounded shadow p-4">
+    <!-- Title bar -->
+    <div class="border-bottom d-flex align-items-center justify-content-between mb-3">
+        <h3 class="text-primary">Delete Review</h3>
+    </div>
+
+    <h5 class="my-3 text-danger">Are you sure?</h5>
+
+    <!-- display the movie using a <dl> as per Details.cshtml -->   
+    <dl class="row mt-3">       
+        <dt class="col-5">Movie</dt>
+        <dd class="col-7">@Model.Movie.Title</dd>
+
+        <dt class="col-5">Review</dt>
+        <dd class="col-7">@Model.Title</dd>
+        
+        <dt class="col-5">Content</dt>
+        <dd class="col-7">@Model.Content</dd>
+        
+        <dt class="col-5">Created</dt>
+        <dd class="col-7">@Model.CreatedOn.ToShortDateString()</dd>
+        
+               
+    </dl>   
+
+    <div class="mt-4">
+        <!-- use a form with hidden input storing review id and MovieId -->
+        <form asp-action="ReveiwDeleteConfirm" type="post">   
+            <!-- hide non-editable values -->
+            <input type="hidden" asp-for="Id"/>
+            <input type="hidden" asp-for="MovieId"/>
+
+            <button type="submit" class="btn btn-danger" aria-label="confirm">Confirm</button>
+            <a class="btn btn-secondary" asp-controller="movie" asp-action="Details" asp-route-id="@Model.Movie.Id" aria-label="cancel" >Cancel</a>
+        </form>
+    </div>
+    
+</div>

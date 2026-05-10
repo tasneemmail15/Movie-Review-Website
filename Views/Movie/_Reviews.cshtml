@@ -1,0 +1,56 @@
+@model Movie
+
+<!-- Title -->
+<div class="mb-3 d-flex border-bottom align-items-center justify-content-between">
+
+    <h3 class="text-secondary">Reviews</h3>
+    <a asp-action="ReviewCreate" asp-route-id="@Model.Id" class="btn btn-sm btn-secondary" aria-label="create review">
+        <i class="bi bi-bag-plus-fill" title="create review"></i>
+        <span class="ms-1 d-none d-md-inline">Add Review</span>
+    </a>
+</div>
+
+<table class="table table-sm">
+    <thead>
+        <tr>          
+            <th>Title</th>
+            <th>CreatedOn</th>  
+            <th>Rating</th>       
+            <th class="text-end">Actions</th>  
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Reviews.Count == 0)
+        {
+            <tr>              
+                <td colspan="4">No reviews...</td>
+            </tr>
+        }
+        else
+        {
+            @foreach(var r in Model.Reviews) {
+                <tr>             
+                    <td>@r.Title.Trim()</td>
+                    <td>@r.CreatedOn.ToShortDateString()</td>  
+                    <td>@r.Ratings.ToString()</td>
+                    @* <td>     
+                        <i asp-condition="@t.Active" class="bi bi-check-circle-fill text-success" title="active"></i>
+                        <i asp-condition="@(!t.Active)" class="bi bi-x-circle-fill text-danger" title="inactive"></i>
+                    </td> *@
+                    <td class="text-end">                                               
+                        <a asp-action="DeleteReview" asp-route-id="@r.Id" class="btn btn-sm btn-outline-danger">
+                            <i class="bi bi-trash-fill" title="delete Review"></i>
+                            <span class="ms-1 d-none d-md-inline">Delete</span>    
+                        </a>                    
+                        <a asp-action="ReviewEdit" asp-route-id="@r.Id" class="btn btn-sm btn-outline-dark">
+                            <i class="bi bi-pen-fill" title="edit review"></i>
+                            <span class="ms-1 d-none d-md-inline">Edit</span>    
+                        </a>
+                       
+                    </td>             
+                </tr>
+                
+            }
+        }
+    </tbody>
+</table> 

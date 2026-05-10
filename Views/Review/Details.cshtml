@@ -1,0 +1,98 @@
+@model Review
+
+<!-- Breadcrumbs using partial view -->
+<partial name="_Breadcrumbs" model=@(new [] { ("/", "Home"), ("/review", "Reviews"), ("","Close") })>
+    
+<div class="col card rounded shadow-lg p-4">
+    <!-- Title bar -->
+    <div class="border-bottom d-flex align-items-center justify-content-between mb-3">
+        <h3 class="text-primary">Review Details</h3>   
+        <a class="btn btn-sm btn-light ms-2" asp-action="Index">
+            <i class="bi bi-list me-2"></i>
+            <span>Reviews</span>
+        </a>     
+    </div>
+     
+     <!-- Review Details Data List -->
+    <dl class="row">       
+        <dt class="col-3">Id</dt>
+        <dd class="col-9">@Model.Id</dd>
+
+        <dt class="col-3">Created By</dt>
+        <dd class="col-9">@Model.Movie.Title</dd>
+
+        <dt class="col-3">Created On</dt>
+        <dd class="col-9">@Model.CreatedOn</dd>
+     
+        <dt class="col-3">Title</dt>
+        <dd class="col-9">@Model.Title</dd>
+
+        <dt class="col-3">Rating</dt>
+        <dd class="col-9">@Model.Ratings</dd>
+
+        <dt class="col-3">Content</dt>
+        <dd class="col-9">@Html.Raw(Model.Content.FromMarkdown())</dd>
+         
+        @* @if (!Model.Active) {
+            <dt class="col-3">Resolved On</dt>
+            <dd class="col-9">@Model.ResolvedOn</dd>
+            
+            <dt class="col-3">Resolution</dt>
+            <dd class="col-9">@Html.Raw(Model.Resolution.FromMarkdown())</dd>     
+        } *@
+    </dl> 
+
+    @* <!-- Page Controls -->
+    <div class="mt-4 d-flex gap-2">   
+        <!-- close ticket button -->           
+        <button id="closeReviewControl" type="button" class="btn btn-sm btn-primary" onclick="showCloseForm()" asp-condition="@(Model.Active)">Close</button> *@
+
+        @* <!-- re-open ticket button -->
+        <form asp-condition=@(!Model.Active) asp-condition=@(User.HasOneOfRoles("admin,support")) 
+              asp-action="Open" asp-route-id="@Model.Id" class="form-inline"> 
+            <button type="submit" class="btn btn-sm btn-primary">
+                <i class="bi bi-envelope-open me-2"></i>Re-open
+            </button> *@
+        @* </form> *@
+    </div>
+   
+    <!-- Riview Close Form -->
+    <form hidden id="closeReviewForm" asp-action="Close" asp-route-id="@Model.Id">           
+        <div class="mt-3">
+            <label asp-for="Resolution" class="form-label fw-bold"></label>
+            <textarea rows="7" asp-for="Resolution" class="form-control"></textarea>
+            <span asp-validation-for="Resolution" class="text-danger"></span>
+        </div>     
+            
+        <div class="mt-3 d-flex align justify-content-end gap-2">
+            <button type="submit" class="btn btn-sm btn-danger">Confirm</button>
+            <button type="button" onclick="hideCloseForm()" class="btn btn-sm btn-secondary" >Cancel</button>           
+        </div>
+    </form> 
+
+
+</div> 
+
+@section Scripts {
+    
+    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+
+    <script >
+        const mde = new SimpleMDE({
+            showIcons: ["code", "table"],
+        });
+
+        function showCloseForm() {
+            document.getElementById("closeReviewForm").hidden = false;
+            document.getElementById("closeTicketControl").hidden = true;
+        }
+        function hideCloseForm() {
+            document.getElementById("closeReviewForm").hidden = true;
+            document.getElementById("closeTicketControl").hidden = false;
+        }
+    </script>
+}
+
+@section Header {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+}

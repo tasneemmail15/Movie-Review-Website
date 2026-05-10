@@ -1,0 +1,72 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+/* .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+} */
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+/* Custom CSS */
+
+.callout {
+  padding: 1.25rem;
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+  border: 1px solid lightgray;
+  border-left-width: .75rem;
+  border-radius: .25rem;
+}
+
+.callout-primary {
+  border-left-color: var(--bs-primary);
+}
+
+.callout-info {
+  border-left-color: var(--bs-info);
+}
+
+.callout-warning {
+  border-left-color: var(--bs-warning);
+}
+
+.callout-danger {
+  border-left-color: var(--bs-danger);
+}
+
+.callout-secondary {
+  border-left-color: var(--bs-secondary);
+}
+
+.hover-effect:hover {
+  /* opacity: 0.65; */
+  font-weight: 600;
+  border-bottom: 2px;
+  border-bottom-style: solid;
+  border-bottom-color: var(--bs-danger);
+}
+/* stops jumping effect when hovering */
+.hover-effect {
+  border-bottom: 2px;
+  border-bottom-style: solid;
+  border-bottom-color: var(--bs-light);
+}
+
+.bottom {
+  position: absolute;
+  bottom: 0;
+}

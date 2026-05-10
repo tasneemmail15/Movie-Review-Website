@@ -1,0 +1,81 @@
+@model Movie
+
+<partial name="_BreadCrumbs" model=@(new [] {
+    ("/","Home"),
+    ("/movie","Movies"),
+    ($"/movie/details/{Model.Id}", $"{Model.Id}"),
+    ("","Details")
+}) />
+
+<div class="card rounded shadow p-4">
+
+    <!-- Title bar -->
+    <div class="border-bottom d-flex align-items-center justify-content-between mb-3">
+        <h3 class="text-primary">Movie Details</h3>
+
+        <a asp-action="Index" class="btn btn-sm btn-primary" aria-label="movie list">
+            <i class="bi bi-list"></i>
+            <span>Movies</span>
+        </a> 
+       
+    </div>
+
+    <div class="row">
+        <!-- Details and Navigation -->
+        <div class="col-8 d-flex flex-column justify-content-between">
+
+            <!-- Movie details -->
+            <dl class="row">
+                <dt class="col-4 pb-1">Title</dt>
+                <dd class="col-8 pb-1">@Model.Title</dd>
+
+                <dt class="col-4 pb-1">Director</dt>
+                <dd class="col-8 pb-1">@Model.Director</dd>
+
+                <dt class="col-4 pb-1">ReleaseDate</dt>
+                <dd class="col-8 pb-1">@Model.ReleaseDate</dd>
+
+                <dt class="col-4 pb-1">Genre</dt>
+                <dd class="col-8 pb-1">@Model.Genre</dd>
+
+                <dt class="col-4 pb-1">AvgRating</dt>
+                <dd class="col-8 pb-1">@Model.AvgRating.ToString("N1")/10</dd>
+
+                <dt class="col-4 pb-1">Review</dt>
+                <dd class="col-8 pb-1">@Model.Classification</dd>
+            </dl>
+
+            <!-- Navigation links -->
+            <div>
+                <!-- navigation link to Update action, passing the correct route id parameter --> 
+                <a asp-condition=@User.HasOneOfRoles("admin,support") asp-action="Edit" asp-route-id="@Model.Id" 
+                   class="btn btn-sm btn-secondary">
+                    <i class="bi bi-pencil"></i>
+                    <span>Edit</span>
+                </a>
+                
+                <!-- button to open Delete Modal --> 
+                <button asp-condition=@User.IsInRole("admin") class="btn btn-sm btn-danger" 
+                        data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        <i class="bi bi-trash"></i> 
+                        <span>Delete</span>  
+                </button>   
+            </div>
+        </div>
+
+         @* <!-- Photo -->
+        <div class="col-4">            
+            <img asp-condition="@(!string.IsNullOrEmpty(Model.Photo))" src="@Model.Photo" class="img-fluid w-50" alt="student photo"/>            
+            <span asp-condition="@string.IsNullOrEmpty(Model.Photo)" class="text-muted" aria-label="missing student photo">No photo available</span>           
+        </div>  *@
+
+    </div>
+</div>
+
+<!-- Reviews -->
+<div class="card rounded shadow p-4 mt-4">
+    <partial name="_Reviews" />
+</div>
+
+<!-- Delete Review Modal Confirmation -->
+<partial name="_DeleteModal" />
